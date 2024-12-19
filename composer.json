@@ -2,7 +2,8 @@
     "name": "karyakode/kodhe",
     "type": "project",
     "require": {
-        "karyakode/framework": "dev-master"
+        "karyakode/framework": "dev-master",
+        "vlucas/phpdotenv": "^4.1.8"
     },
     "autoload": {
         "psr-4": {

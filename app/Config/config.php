@@ -1,7 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['base_url'] = '';
+if (empty($_SERVER['BASE_URL'])){
+    $config['base_url'] = ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}" . str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+} else{
+  $config['base_url'] = $_SERVER['BASE_URL'];
+}
 
 $config['index_page'] = 'index.php';
 
