@@ -87,12 +87,12 @@ if (isset($routing)) {
 }
 
 // Global helper function
-function &flame($dep = null) {
+function &kodhe($dep = null) {
     return Kodhe\Controller::get_instance($dep);
 }
 
 function &get_instance() {
-    return flame();
+    return kodhe();
 }
 
 // Memproses request
