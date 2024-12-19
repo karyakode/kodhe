@@ -35,17 +35,6 @@ foreach (['config','Config'] as $key => $name) {
 
  Flame\Core\Engine\Autoloader::getInstance()->register();
 
-
-
-
-/*
- * ------------------------------------------------------
- *  Load the global functions
- * ------------------------------------------------------
- */
-	//require __DIR__.'/Common.php';
-
-
 	/*
 	 * ------------------------------------------------------
 	 * Security procedures
@@ -112,7 +101,6 @@ foreach (['config','Config'] as $key => $name) {
  */
 
  $framework = new \Flame\Core\Engine\Framework(new \Flame\Core\Dependency\DependencyResolver());
- //$framework = new \Flame\Core\Engine\Framework();
 
 	$charset = strtoupper(config_item('charset'));
 	ini_set('default_charset', $charset);
