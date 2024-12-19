@@ -1,7 +1,5 @@
 <?php
 
-defined('BASEPATH') || define('BASEPATH', __DIR__.DIRECTORY_SEPARATOR);
-defined('STORAGEPATH') || define('STORAGEPATH', FCPATH.'storage'.DIRECTORY_SEPARATOR);
 define('CI_VERSION', '3.1.11');
 
 $appSetup = file_exists(APPPATH.'app.setup.php') ? include(APPPATH.'app.setup.php') : ['namespace'=>'App'];
