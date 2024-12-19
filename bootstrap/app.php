@@ -2,210 +2,106 @@
 
 define('CI_VERSION', '3.1.11');
 
-$appSetup = file_exists(APPPATH.'app.setup.php') ? include(APPPATH.'app.setup.php') : ['namespace'=>'App'];
-
-define('APP_NAMESPACE', $appSetup['namespace']);
-
-foreach (['config','Config'] as $key => $name) {
-  if (file_exists(APPPATH.$name.'/'.ENVIRONMENT.'/constants.php'))
-  {
-  	require_once(APPPATH.$name.'/'.ENVIRONMENT.'/constants.php');
-  }
-
-  if (file_exists(APPPATH.$name.'/constants.php'))
-  {
-  	require_once(APPPATH.$name.'/constants.php');
-  }
+// Memuat constants.php jika ada
+foreach (['config', 'Config'] as $name) {
+    foreach (["$name/".ENVIRONMENT, "$name"] as $path) {
+        $file = APPPATH . "$path/constants.php";
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    }
 }
 
+// Memuat autoloader
+$autoloadPath = FCPATH . '/vendor/autoload.php';
+if (!file_exists($autoloadPath)) {
+    header('HTTP/1.1 503 Service Unavailable', true, 503);
+    echo 'Your vendor/autoload.php file does not appear to be set correctly.';
+    exit(3);
+} else {
+    require $autoloadPath;
+}
 
+// Daftarkan autoloader framework
+Flame\Core\Engine\Autoloader::getInstance()->register();
 
-/*
- * ------------------------------------------------------
- *  Load the autoloader and register it
- * ------------------------------------------------------
- */
- if(!file_exists(FCPATH.'/vendor/autoload.php')) {
-   header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-   echo 'Your vendor/autoload.php file does not appear to be set correctly.';
-   exit(3); // EXIT_CONFIG
- } else {
-  require FCPATH.'/vendor/autoload.php';
- }
+// Keamanan dan kompatibilitas
+if (!is_php('5.4')) {
+    ini_set('magic_quotes_runtime', 0);
 
- Flame\Core\Engine\Autoloader::getInstance()->register();
+    if ((bool) ini_get('register_globals')) {
+        $superglobals = ['_ENV', '_GET', '_POST', '_COOKIE', '_SERVER'];
+        $protected = ['_SERVER', '_GET', '_POST', '_FILES', '_REQUEST', '_SESSION', '_ENV', '_COOKIE', 'GLOBALS', 'HTTP_RAW_POST_DATA', 'system_path', 'application_folder', 'view_folder', '_protected', '_registered'];
 
-	/*
-	 * ------------------------------------------------------
-	 * Security procedures
-	 * ------------------------------------------------------
-	 */
+        foreach (['E' => '_ENV', 'G' => '_GET', 'P' => '_POST', 'C' => '_COOKIE', 'S' => '_SERVER'] as $key => $superglobal) {
+            if (strpos(ini_get('variables_order'), $key) !== false) {
+                foreach (array_keys($$superglobal) as $var) {
+                    if (isset($GLOBALS[$var]) && !in_array($var, $protected, true)) {
+                        $GLOBALS[$var] = NULL;
+                    }
+                }
+            }
+        }
+    }
+}
 
-	if ( ! is_php('5.4'))
-	{
-		ini_set('magic_quotes_runtime', 0);
+// Daftarkan handler error dan exception
+set_error_handler('_error_handler');
+set_exception_handler('_exception_handler');
+register_shutdown_function('_shutdown_handler');
 
-		if ((bool) ini_get('register_globals'))
-		{
-			$_protected = array(
-				'_SERVER',
-				'_GET',
-				'_POST',
-				'_FILES',
-				'_REQUEST',
-				'_SESSION',
-				'_ENV',
-				'_COOKIE',
-				'GLOBALS',
-				'HTTP_RAW_POST_DATA',
-				'system_path',
-				'application_folder',
-				'view_folder',
-				'_protected',
-				'_registered'
-			);
+// Setup charset dan ekstensi
+$charset = strtoupper(config_item('charset'));
+ini_set('default_charset', $charset);
+define('MB_ENABLED', extension_loaded('mbstring') ? true : false);
+define('ICONV_ENABLED', extension_loaded('iconv') ? true : false);
 
-			$_registered = ini_get('variables_order');
-			foreach (array('E' => '_ENV', 'G' => '_GET', 'P' => '_POST', 'C' => '_COOKIE', 'S' => '_SERVER') as $key => $superglobal)
-			{
-				if (strpos($_registered, $key) === FALSE)
-				{
-					continue;
-				}
+// Pengaturan ekstensi jika ada
+if (MB_ENABLED) {
+    @ini_set('mbstring.internal_encoding', $charset);
+    mb_substitute_character('none');
+}
+if (ICONV_ENABLED) {
+    @ini_set('iconv.internal_encoding', $charset);
+}
+if (is_php('5.6')) {
+    ini_set('php.internal_encoding', $charset);
+}
 
-				foreach (array_keys($$superglobal) as $var)
-				{
-					if (isset($GLOBALS[$var]) && ! in_array($var, $_protected, TRUE))
-					{
-						$GLOBALS[$var] = NULL;
-					}
-				}
-			}
-		}
-	}
+// Memuat file kompatibilitas
+require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/mbstring.php';
+require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/hash.php';
+require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/password.php';
+require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/standard.php';
 
+// Booting framework
+$framework = new \Flame\Core\Engine\Framework(new \Flame\Core\Dependency\DependencyResolver());
+$framework->boot();
 
-	/*
-	 * ------------------------------------------------------
-	 *  Define a custom error handler so we can log PHP errors
-	 * ------------------------------------------------------
-	 */
-	set_error_handler('_error_handler');
-	set_exception_handler('_exception_handler');
-	register_shutdown_function('_shutdown_handler');
+// Override konfigurasi dan routing
+if (isset($assign_to_config)) {
+    $framework->overrideConfig($assign_to_config);
+}
+if (isset($routing)) {
+    $framework->overrideRouting($routing);
+}
 
-/*
- * ------------------------------------------------------
- *  Check for the installer if we're booting the CP
- * ------------------------------------------------------
- */
+// Global helper function
+function &flame($dep = null) {
+    return Flame\Controller::get_instance($dep);
+}
 
- $framework = new \Flame\Core\Engine\Framework(new \Flame\Core\Dependency\DependencyResolver());
-
-	$charset = strtoupper(config_item('charset'));
-	ini_set('default_charset', $charset);
-
-	if (extension_loaded('mbstring'))
-	{
-		define('MB_ENABLED', TRUE);
-		@ini_set('mbstring.internal_encoding', $charset);
-		mb_substitute_character('none');
-	}
-	else
-	{
-		define('MB_ENABLED', FALSE);
-	}
-
-	if (extension_loaded('iconv'))
-	{
-		define('ICONV_ENABLED', TRUE);
-		@ini_set('iconv.internal_encoding', $charset);
-	}
-	else
-	{
-		define('ICONV_ENABLED', FALSE);
-	}
-
-	if (is_php('5.6'))
-	{
-		ini_set('php.internal_encoding', $charset);
-	}
-
-
-	require_once(FCPATH.'vendor/karyakode/framework/src/Core/Compat/mbstring.php');
-	require_once(FCPATH.'vendor/karyakode/framework/src/Core/Compat/hash.php');
-	require_once(FCPATH.'vendor/karyakode/framework/src/Core/Compat/password.php');
-	require_once(FCPATH.'vendor/karyakode/framework/src/Core/Compat/standard.php');
-
-/*
- * ------------------------------------------------------
- *  Boot the core
- * ------------------------------------------------------
- */
-	$framework->boot();
-
-/*
- * ------------------------------------------------------
- *  Set config items from the index.php file
- * ------------------------------------------------------
- */
-	if (isset($assign_to_config))
-	{
-		$framework->overrideConfig($assign_to_config);
-	}
-
-/*
- * ------------------------------------------------------
- *  Set routing overrides from the index.php file
- * ------------------------------------------------------
- */
-	if (isset($routing))
-	{
-		$framework->overrideRouting($routing);
-	}
-
-/*
- * ------------------------------------------------------
- *  Create global helper functions
- *
- *  Using `CI` for the global name, just in case someone
- *  is relying on that instead of get_instance()
- * ------------------------------------------------------
- */
-
-	function &flame($dep = NULL)
-	{
-		return Flame\Controller::get_instance($dep);
-	}
-
-  function &get_instance() {
-
+function &get_instance() {
     return flame();
-  }
+}
 
-/*
- * ------------------------------------------------------
- *  Parse the request
- * ------------------------------------------------------
- */
-	$request = \Flame\Core\Engine\Http\Request::fromGlobals();
+// Memproses request
+$request = \Flame\Core\Engine\Http\Request::fromGlobals();
+$response = $framework->run($request);
 
-/*
- * ------------------------------------------------------
- *  Run the request and get a response
- * ------------------------------------------------------
- */
-
-	$response = $framework->run($request);
-
-/*
- * ------------------------------------------------------
- *  Send the response
- * ------------------------------------------------------
- */
-	if ($response)
-	{
-		$response->send();
-	}
+// Kirim response
+if ($response) {
+    $response->send();
+}
 
 // EOF
