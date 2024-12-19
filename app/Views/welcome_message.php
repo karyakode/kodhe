@@ -1,102 +1,44 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to <?php echo kodhe('setup')->get('name'); ?></title>
-
-	<style type="text/css">
-
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-		text-decoration: none;
-	}
-
-	a:hover {
-		color: #97310e;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body {
-		margin: 0 15px 0 15px;
-		min-height: 96px;
-	}
-
-	p {
-		margin: 0 0 10px;
-		padding:0;
-	}
-
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Welcome to <?php echo htmlspecialchars(kodhe('setup')->get('name')); ?></title>
+	<script src="<?php echo base_url('assets/js/tailwindcss.js'); ?>"></script>
 </head>
-<body>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans text-gray-800">
 
-<div id="container">
-	<h1>Welcome to <?php echo kodhe('setup')->get('name'); ?>!</h1>
-	<div id="body">
-		<p><?php echo kodhe('setup')->get('description'); ?></p>
+<div class="max-w-lg w-full bg-white shadow-lg rounded-lg border border-gray-200 p-6">
+	<h1 class="text-2xl font-bold text-blue-600 mb-4 text-center">Welcome to <?php echo htmlspecialchars(kodhe('setup')->get('name')); ?>!</h1>
+	<p class="text-gray-600 mb-4 text-center"><?php echo htmlspecialchars(kodhe('setup')->get('description')); ?></p>
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+	<div class="space-y-4">
+		<p class="text-sm text-gray-500">To edit this page, you'll find it located at:</p>
+		<code class="block bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm">application/views/welcome_message.php</code>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
+		<p class="text-sm text-gray-500">The corresponding controller for this page is found at:</p>
+		<code class="block bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm">application/controllers/Welcome.php</code>
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="userguide3/">User Guide</a>.</p>
+		<p class="text-sm text-gray-500">
+			If this is your first time exploring CodeIgniter, visit the <a href="userguide3/" class="text-blue-500 hover:underline">User Guide</a> to get started.
+		</p>
 	</div>
 
-	<p class="footer">
-		<?php echo  (ENVIRONMENT === 'development') ?  ' CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?>
-		<?php echo  (ENVIRONMENT === 'development') ?  kodhe('setup')->get('name').' Version <strong>' . kodhe('setup')->get('version') . '</strong>' : '' ?>
-		Page rendered in <strong>{elapsed_time}</strong> seconds.
-		Memory Usage: <strong>{memory_usage}</strong></p>
+	<div class="mt-6 border-t pt-4 text-sm text-gray-500">
+		<?php if (ENVIRONMENT === 'development'): ?>
+			<div class="mb-2">
+				CodeIgniter Version: <strong class="text-gray-800"><?php echo CI_VERSION; ?></strong><br>
+				<?php echo htmlspecialchars(kodhe('setup')->get('name')); ?> Version: <strong class="text-gray-800"><?php echo htmlspecialchars(kodhe('setup')->get('version')); ?></strong>
+			</div>
+		<?php endif; ?>
+		<p>
+			Page rendered in <strong class="text-gray-800">{elapsed_time}</strong> seconds.<br>
+			Memory Usage: <strong class="text-gray-800">{memory_usage}</strong>
+		</p>
+	</div>
 </div>
 
 </body>
