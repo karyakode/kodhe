@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to <?php echo flame('setup')->get('name'); ?></title>
+	<title>Welcome to <?php echo kodhe('setup')->get('name'); ?></title>
 
 	<style type="text/css">
 
@@ -79,9 +79,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-	<h1>Welcome to <?php echo flame('setup')->get('name'); ?>!</h1>
+	<h1>Welcome to <?php echo kodhe('setup')->get('name'); ?>!</h1>
 	<div id="body">
-		<p><?php echo flame('setup')->get('description'); ?></p>
+		<p><?php echo kodhe('setup')->get('description'); ?></p>
 
 		<p>If you would like to edit this page you'll find it located at:</p>
 		<code>application/views/welcome_message.php</code>
@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<p class="footer">
 		<?php echo  (ENVIRONMENT === 'development') ?  ' CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?>
-		<?php echo  (ENVIRONMENT === 'development') ?  flame('setup')->get('name').' Version <strong>' . flame('setup')->get('version') . '</strong>' : '' ?>
+		<?php echo  (ENVIRONMENT === 'development') ?  kodhe('setup')->get('name').' Version <strong>' . kodhe('setup')->get('version') . '</strong>' : '' ?>
 		Page rendered in <strong>{elapsed_time}</strong> seconds.
 		Memory Usage: <strong>{memory_usage}</strong></p>
 </div>
