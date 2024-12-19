@@ -1,0 +1,13 @@
+{
+    "name": "karyakode/kodhe",
+    "type": "project",
+    "require": {
+        "karyakode/framework": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
