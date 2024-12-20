@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Welcome to <?php echo htmlspecialchars(kodhe('setup')->get('name')); ?></title>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="<?php echo base_url('assets/js/tailwindcss.js') ?>"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
 
