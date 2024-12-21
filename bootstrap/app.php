@@ -23,7 +23,7 @@ if (!file_exists($autoloadPath)) {
 }
 
 // Daftarkan autoloader framework
-Kodhe\Core\Engine\Autoloader::getInstance()->register();
+Kodhe\Pulen\Core\Engine\Autoloader::getInstance()->register();
 
 // Keamanan dan kompatibilitas
 if (!is_php('5.4')) {
@@ -75,7 +75,7 @@ require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/password.php';
 require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/standard.php';
 
 // Booting framework
-$framework = new \Kodhe\Core\Engine\Framework(new \Kodhe\Core\Dependency\DependencyResolver());
+$framework = new \Kodhe\Pulen\Core\Engine\Framework(new \Kodhe\Pulen\Core\Dependency\DependencyResolver());
 $framework->boot();
 
 // Override konfigurasi dan routing
@@ -88,7 +88,7 @@ if (isset($routing)) {
 
 // Global helper function
 function &kodhe($dep = null) {
-    return Kodhe\Controller::get_instance($dep);
+    return Kodhe\Pulen\Controller::get_instance($dep);
 }
 
 function &get_instance() {
@@ -96,7 +96,7 @@ function &get_instance() {
 }
 
 // Memproses request
-$request = \Kodhe\Core\Engine\Http\Request::fromGlobals();
+$request = \Kodhe\Pulen\Core\Engine\Http\Request::fromGlobals();
 $response = $framework->run($request);
 
 // Kirim response
