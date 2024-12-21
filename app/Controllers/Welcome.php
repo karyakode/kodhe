@@ -1,4 +1,4 @@
-<?php namespace App\Controllers\Welcome;
+<?php namespace App\Controllers;
 
 class Welcome extends \CI_Controller {
 
@@ -9,6 +9,6 @@ class Welcome extends \CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->blade->render('welcome');
 	}
 }
