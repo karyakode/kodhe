@@ -5,17 +5,17 @@ class MY_Loader extends \CI_Loader
 
   function __construct()
   {
-    $di = new \Kodhe\Core\Dependency\DependencyResolver();
+    $di = new \Kodhe\Pulen\Core\Dependency\DependencyResolver();
 
     parent::__construct(
-      $di->resolve('Kodhe\Core\Facade\Facade'),
-      $di->resolve('Kodhe\Core\Loader\Package\Package'),
-      $di->resolve('Kodhe\Core\Loader\Library\Library'),
-      $di->resolve('Kodhe\Core\Loader\Model\Model'),
-      $di->resolve('Kodhe\Core\Loader\Helper\Helper'),
-      $di->resolve('Kodhe\Core\Loader\View\View'),
-      $di->resolve('Kodhe\Core\Loader\Driver\Driver'),
-      $di->resolve('Kodhe\Core\Loader\Autoloader'),
+      $di->resolve('Kodhe\Pulen\Core\Facade\Facade'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Package\Package'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Library\Library'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Model\Model'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Helper\Helper'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\View\View'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Driver\Driver'),
+      $di->resolve('Kodhe\Pulen\Core\Loader\Autoloader'),
     );
   }
 
