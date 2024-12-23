@@ -59,9 +59,9 @@ Kodhe Framework adalah pengembangan modern dari CodeIgniter 3 yang dirancang unt
   Nama folder dan file diawali huruf besar (contoh: PostModel.php).
   Penamaan class tidak menggunakan tanda underscore _ (contoh: PostModel, bukan post_model).
 
-## Instalasi lewat cmposer repositori
+## Instalasi lewat composer repositori
 
-1. **Clone repositori Kodhe Framework:**
+1. **Composer repositori Kodhe Framework:**
     ```bash
     composer create-project karyakode/kodhe
 
