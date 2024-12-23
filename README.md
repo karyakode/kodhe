@@ -63,7 +63,7 @@ Kodhe Framework adalah pengembangan modern dari CodeIgniter 3 yang dirancang unt
 
 1. **Composer repositori Kodhe Framework:**
     ```bash
-    composer create-project karyakode/kodhe
+    composer create-project karyakode/kodhe --stability dev
 
 ## Instalasi lewat Clone repositori
 

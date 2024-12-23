@@ -56,9 +56,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="mt-8">
 				<h3 class="text-lg font-bold text-gray-800 mb-3">Key File Locations:</h3>
 				<ul class="list-disc list-inside text-gray-600 space-y-2">
-					<li><code class="bg-gray-100 px-2 py-1 rounded">application/controllers/Welcome.php</code> - Main controller.</li>
-					<li><code class="bg-gray-100 px-2 py-1 rounded">application/views/welcome_message.php</code> - View for this page.</li>
-					<li><code class="bg-gray-100 px-2 py-1 rounded">application/config</code> - Configuration directory.</li>
+					<li><code class="bg-gray-100 px-2 py-1 rounded">app/controllers/Welcome.php</code> - Main controller.</li>
+					<li><code class="bg-gray-100 px-2 py-1 rounded">app/views/welcome.blade.php</code> - View for this page.</li>
+					<li><code class="bg-gray-100 px-2 py-1 rounded">app/config</code> - Configuration directory.</li>
 				</ul>
 			</div>
 		</div>
