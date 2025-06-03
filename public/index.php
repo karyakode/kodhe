@@ -25,7 +25,7 @@ $base_dir = __DIR__;
 $is_in_public = basename($base_dir) === 'public';
 
 // Tentukan jalur direktori sistem dan aplikasi
-$system_path = setDirectoryPath($is_in_public ? '../vendor/karyakode/framework/src' : 'vendor/karyakode/framework/src');
+$system_path = setDirectoryPath($is_in_public ? '../vendor/karyakode/framework/Pulen' : 'vendor/karyakode/framework/Pulen');
 define('BASEPATH', $system_path);
 define('FCPATH', $is_in_public ? dirname($base_dir) . DIRECTORY_SEPARATOR : $base_dir . DIRECTORY_SEPARATOR);
 define('SYSDIR', basename(BASEPATH));
