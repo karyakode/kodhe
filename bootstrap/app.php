@@ -23,7 +23,7 @@ if (!file_exists($autoloadPath)) {
 }
 
 // Daftarkan autoloader framework
-Kodhe\Pulen\Core\Engine\Autoloader::getInstance()->register();
+Kodhe\Pulen\Framework\Application\Autoloader::getInstance()->register();
 
 // Keamanan dan kompatibilitas
 if (!is_php('5.4')) {
@@ -69,13 +69,13 @@ if (is_php('5.6')) {
 }
 
 // Memuat file kompatibilitas
-require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/mbstring.php';
-require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/hash.php';
-require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/password.php';
-require_once FCPATH . 'vendor/karyakode/framework/src/Core/Compat/standard.php';
+require_once FCPATH . 'vendor/karyakode/framework/Pulen/Framework/Support/Compat/mbstring.php';
+require_once FCPATH . 'vendor/karyakode/framework/Pulen/Framework/Support/Compat/hash.php';
+require_once FCPATH . 'vendor/karyakode/framework/Pulen/Framework/Support/Compat/password.php';
+require_once FCPATH . 'vendor/karyakode/framework/Pulen/Framework/Support/Compat/standard.php';
 
 // Booting framework
-$framework = new \Kodhe\Pulen\Core\Engine\Framework(new \Kodhe\Pulen\Core\Dependency\DependencyResolver());
+$framework = new \Kodhe\Pulen\Framework\Application\Framework(new \Kodhe\Pulen\Framework\Container\DependencyResolver());
 $framework->boot();
 
 // Override konfigurasi dan routing
@@ -96,7 +96,7 @@ function &get_instance() {
 }
 
 // Memproses request
-$request = \Kodhe\Pulen\Core\Engine\Http\Request::fromGlobals();
+$request = \Kodhe\Pulen\Framework\Application\Http\Request::fromGlobals();
 $response = $framework->run($request);
 
 // Kirim response
