@@ -4,7 +4,7 @@ Kodhe Framework adalah pengembangan modern dari CodeIgniter 3 yang dirancang unt
 
 ---
 
-## Fitur Utama  
+## Fitur Utama Kodhe Framework
 
 1. **Dukungan Namespace**  
    Kodhe Framework menggunakan namespace untuk struktur yang lebih rapi:
